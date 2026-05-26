@@ -13,13 +13,6 @@ function getComputerChoice(){
     return compChoice;
 }
 
-function getHumanChoice(){
-    let choice = prompt("rock, paper, or scissors?");
-    return choice.toLowerCase();
-}
-
-
-
 function playGame(){
     let humanScore = 0;
     let computerScore = 0;
@@ -82,17 +75,38 @@ function playGame(){
         return;
     }
 
-    for(let i = 0; i < 5; i++){
-        playRound(getComputerChoice(), getHumanChoice());
-        console.log("Computer Score: (" + computerScore + ") Your Score: (" + humanScore + ")");
+    const rockBtn = document.querySelector("#rockBtn");
+    const paperbtn = document.querySelector("#paperBtn");
+    const scissorsBtn = document.querySelector("#scissorBtn");
+
+    const btnContainer = document.querySelector(".btn-container");
+    function getHumanChoice(e){
+        let target = e.target;
+        switch(target.id) {
+            case 'rockBtn':
+                playRound(getComputerChoice(), 'rock');
+                console.log("Computer Score: (" + computerScore + ") Your Score: (" + humanScore + ")");
+                break;
+            case 'paperBtn':
+                playRound(getComputerChoice(), 'paper');
+                console.log("Computer Score: (" + computerScore + ") Your Score: (" + humanScore + ")");
+                break;
+            case 'scissorBtn':
+                playRound(getComputerChoice(), 'scissors');
+                console.log("Computer Score: (" + computerScore + ") Your Score: (" + humanScore + ")");
+                break;
+        }
+        if(humanScore === 5){
+            console.log("You won!")
+            btnContainer.removeEventListener('click', getHumanChoice);
+        }
+        else if(computerScore === 5){
+            console.log("You lost!")
+            btnContainer.removeEventListener('click', getHumanChoice);
+        }
     }
 
-    if(humanScore > computerScore){
-        console.log("You won!")
-    }
-    else{
-        console.log("You lost!")
-    }
+    btnContainer.addEventListener("click", getHumanChoice);
 }
 
 playGame();
