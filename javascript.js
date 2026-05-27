@@ -17,18 +17,30 @@ function playGame(){
     let humanScore = 0;
     let computerScore = 0;
 
+    const btnContainer = document.querySelector(".btn-container");
+
+    const body = document.querySelector("body");
+
+    const infoDiv = document.createElement("div");
+    infoDiv.classList.add("infoDiv");
+    body.insertBefore(infoDiv, btnContainer);
+
+    const currResult = document.createElement("div");
+    currResult.classList.add("currResult");
+    body.appendChild(currResult);
+
     function playRound(compChoice, humanChoice){
         if(compChoice === "rock"){
             switch (humanChoice){
                 case "rock":
-                    console.log("Tie!");
+                    currResult.textContent = "Tie!";
                     break;
                 case "paper":
-                    console.log("You win! Paper beats Rock");
+                    currResult.textContent = "You win! Paper beats Rock";
                     humanScore++; 
                     break;
                 case "scissors":
-                    console.log("You lose! Rock beats Scissors");
+                    currResult.textContent = "You lose! Rock beats Scissors";
                     computerScore++;
                     break;
                 default:
@@ -39,14 +51,14 @@ function playGame(){
         else if(compChoice === "paper"){
             switch (humanChoice){
                 case "rock":
-                    console.log("You lose! Paper beats Rock");
+                    currResult.textContent = "You lose! Paper beats Rock";
                     computerScore++;
                     break;
                 case "paper":
-                    console.log("Tie!");
+                    currResult.textContent = "Tie!";
                     break;
                 case "scissors":
-                    console.log("You win! Scissors beats Paper");
+                    currResult.textContent = "You win! Scissors beats Paper";
                     humanScore++;
                     break;
                 default:
@@ -57,15 +69,15 @@ function playGame(){
         else if(compChoice === "scissors"){
             switch (humanChoice){
                 case "rock":
-                    console.log("You win! Rock beats Scissors");
+                    currResult.textContent = "You win! Rock beats Scissors";
                     humanScore++;
                     break;
                 case "paper":
-                    console.log("You lose! Scissors beats Paper");
+                    currResult.textContent = "You lose! Scissors beats Paper";
                     computerScore++;
                     break;
                 case "scissors":
-                    console.log("Tie!");
+                    currResult.textContent = "Tie!";
                     break;
                 default:
                     console.log("Something went wrong!")
@@ -75,33 +87,28 @@ function playGame(){
         return;
     }
 
-    const rockBtn = document.querySelector("#rockBtn");
-    const paperbtn = document.querySelector("#paperBtn");
-    const scissorsBtn = document.querySelector("#scissorBtn");
-
-    const btnContainer = document.querySelector(".btn-container");
     function getHumanChoice(e){
         let target = e.target;
         switch(target.id) {
             case 'rockBtn':
                 playRound(getComputerChoice(), 'rock');
-                console.log("Computer Score: (" + computerScore + ") Your Score: (" + humanScore + ")");
+                infoDiv.textContent = "Computer Score: (" + computerScore + ") Your Score: (" + humanScore + ")"; 
                 break;
             case 'paperBtn':
                 playRound(getComputerChoice(), 'paper');
-                console.log("Computer Score: (" + computerScore + ") Your Score: (" + humanScore + ")");
+                infoDiv.textContent = "Computer Score: (" + computerScore + ") Your Score: (" + humanScore + ")"; 
                 break;
             case 'scissorBtn':
                 playRound(getComputerChoice(), 'scissors');
-                console.log("Computer Score: (" + computerScore + ") Your Score: (" + humanScore + ")");
+                infoDiv.textContent = "Computer Score: (" + computerScore + ") Your Score: (" + humanScore + ")"; 
                 break;
         }
         if(humanScore === 5){
-            console.log("You won!")
+            currResult.textContent = "You won!";
             btnContainer.removeEventListener('click', getHumanChoice);
         }
         else if(computerScore === 5){
-            console.log("You lost!")
+            currResult.textContent = "You lost!";
             btnContainer.removeEventListener('click', getHumanChoice);
         }
     }
